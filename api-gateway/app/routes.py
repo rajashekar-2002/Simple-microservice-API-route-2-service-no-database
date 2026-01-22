@@ -40,3 +40,34 @@ async def create_order(user_id: int):
         raise HTTPException(status_code=503, detail="Order service unavailable")
     except httpx.HTTPStatusError as exc:
         raise HTTPException(status_code=exc.response.status_code, detail=exc.response.text)
+
+
+
+
+
+
+
+
+
+
+# response = await client.get(f"{settings.USER_SERVICE_URL}/users/{user_id}")
+
+# getting double slash after using this
+# http://127.0.0.1:8001/ + /users/1 → http://127.0.0.1:8001//users/1
+
+
+# 🔹 Fix 1: Remove trailing slashes in .env
+
+# Change .env for gateway:
+
+# USER_SERVICE_URL=http://127.0.0.1:8001
+# ORDER_SERVICE_URL=http://127.0.0.1:8002
+
+
+# No trailing slash at the end!
+
+# 🔹 Fix 2 (Optional but safer): Use urljoin in Python
+# from urllib.parse import urljoin
+
+# url = urljoin(settings.USER_SERVICE_URL, f"/users/{user_id}")
+# response = await client.get(url)
