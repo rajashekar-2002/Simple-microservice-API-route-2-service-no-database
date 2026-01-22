@@ -6,7 +6,9 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
-@router.get("/{user_id}")
+
+# can also make it get request
+@router.post("/{user_id}")
 async def create_order(user_id: int):
     logger.info(f"Order request received user_id={user_id}")
 
