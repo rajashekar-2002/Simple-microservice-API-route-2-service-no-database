@@ -4,7 +4,7 @@ from app.core.config import settings
 if __name__ == "__main__":
     uvicorn.run(
         "app.main:app",
-        host="http://localhost:8001",
+        host="127.0.0.1",
         port=settings.PORT,
-        reload=True
+        reload=False
     )
