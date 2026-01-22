@@ -1,13 +1,13 @@
 import httpx
-
-USER_SERVICE_URL = "http://localhost:8001"
+from app.core.config import settings
 
 async def get_user(user_id: int):
     async with httpx.AsyncClient(timeout=2.0) as client:
-        response = await client.get(f"{USER_SERVICE_URL}/users/{user_id}")
+        response = await client.get(
+            f"{settings.USER_SERVICE_URL}/users/{user_id}"
+        )
         response.raise_for_status()
         return response.json()
-
 
 
 
