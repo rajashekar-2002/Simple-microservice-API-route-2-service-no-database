@@ -1,26 +1,17 @@
-from fastapi import APIRouter, HTTPException
-from app.services.user_client import get_user
+from fastapi import APIRouter, Request
 import logging
 
 logger = logging.getLogger(__name__)
-
 router = APIRouter()
 
-
-# can also make it get request
 @router.post("/{user_id}")
-async def create_order(user_id: int):
-    logger.info(f"Order request received user_id={user_id}")
+async def create_order(user_id: int, request: Request):
+    request_id = request.headers.get("X-Request-ID", "N/A")
 
-    try:
-        user = await get_user(user_id)
-    except Exception:
-        logger.error(f"Failed to fetch user user_id={user_id}")
-        raise HTTPException(status_code=400, detail="User service unavailable")
+    logger.info(f"[req_id={request_id}] Order request received user_id={user_id}")
 
-    logger.info(f"Order created for user_id={user_id}")
     return {
         "message": "Order created",
-        "user": user,
-        "order_id": 123
+        "order_id": 123,
+        "request_id": request_id
     }

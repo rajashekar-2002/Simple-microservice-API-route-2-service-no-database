@@ -1,24 +1,17 @@
-from fastapi import APIRouter, HTTPException
-from app.models.user import User
+from fastapi import APIRouter, Request
 import logging
 
 logger = logging.getLogger(__name__)
-
 router = APIRouter()
 
-USERS = {
-    1: User(id=1, name="Raja", email="raja@example.com"),
-    2: User(id=2, name="Kiran", email="kiran@example.com"),
-}
+@router.get("/{user_id}")
+async def get_user(user_id: int, request: Request):
+    request_id = request.headers.get("X-Request-ID", "N/A")
 
-@router.get("/{user_id}", response_model=User)
-async def get_user(user_id: int):
-    logger.info(f"Fetching user user_id={user_id}")
+    logger.info(f"[req_id={request_id}] User requested user_id={user_id}")
 
-    user = USERS.get(user_id)
-    if not user:
-        logger.error(f"User not found user_id={user_id}")
-        raise HTTPException(status_code=404, detail="User not found")
-
-    logger.info(f"User found user_id={user_id}")
-    return user
+    return {
+        "id": user_id,
+        "name": "Raja",
+        "email": "raja@example.com"
+    }
